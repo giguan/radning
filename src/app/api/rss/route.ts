@@ -1,27 +1,34 @@
-import { getAllPosts } from '@/lib/posts'; // 게시글 데이터를 가져오는 함수
 import { NextResponse } from 'next/server';
+import prisma from '@lib/prisma';
+import { format } from 'date-fns';
 
+// RSS 피드 XML 생성
 export async function GET() {
-  const baseUrl = 'https://yourwebsite.com';  // 실제 사이트의 URL로 변경
-  const posts = await getAllPosts();  // 모든 게시글 데이터를 가져옵니다.
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 20,  // 최신 20개 게시글만 RSS에 포함
+  });
 
-  // RSS 피드 형식의 XML 데이터 생성
+  const rssItems = posts
+    .map(post => `
+      <item>
+        <title>${post.title}</title>
+        <link>https://your-domain.com/blog/${post.id}</link>
+        <pubDate>${format(new Date(post.createdAt), 'EEE, dd MMM yyyy HH:mm:ss O')}</pubDate>
+        <description>${post.excerpt}</description>
+      </item>
+    `)
+    .join('');
+
   const rssFeed = `
     <rss version="2.0">
       <channel>
-        <title>토토의집 블로그 RSS 피드</title>
-        <link>${baseUrl}</link>
-        <description>토토의집 최신 블로그 포스트</description>
-        <language>ko</language>
-        <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-        ${posts.map((post) => `
-          <item>
-            <title>${post.title}</title>
-            <link>${baseUrl}/posts/${post.slug}</link>
-            <description>${post.excerpt}</description>
-            <pubDate>${new Date(post.createdAt).toUTCString()}</pubDate>
-          </item>
-        `).join('')}
+        <title>Your Blog Title</title>
+        <link>https://your-domain.com/blog</link>
+        <description>Blog feed description</description>
+        ${rssItems}
       </channel>
     </rss>
   `;

@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 
 // 개별 게시글 데이터를 fetch하여 렌더링
 export default async function BlogPost({ params }) {
-  const { id } = params;
+  const { title } = params;
 
   // 특정 게시글 가져오기
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${encodeURIComponent(title)}`, {
     cache: "no-store",
   });
 

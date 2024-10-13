@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
-import prisma from '@lib/prisma';
+import { NextResponse } from "next/server";
+import prisma from "@lib/prisma";
 
-// 특정 게시글을 ID로 가져오는 GET
+// 특정 타이틀의 게시글을 가져오는 API
 export async function GET(request, { params }) {
-  const { id } = params;
+  const { title } = params;
 
   try {
-    const post = await prisma.post.findUnique({
-      where: { id: parseInt(id, 10) },  // ID를 숫자로 변환
+    const post = await prisma.post.findFirst({      // 고유키이긴 한데;;; where절 에러남
+      where: { title: decodeURIComponent(title) },  // 타이틀을 기반으로 게시글 조회
     });
 
     if (!post) {
@@ -16,7 +16,6 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(post, { status: 200 });
   } catch (error) {
-    console.error('게시글 가져오기 오류:', error);
     return NextResponse.json({ error: "게시글을 불러오는 중 오류가 발생했습니다." }, { status: 500 });
   }
 }

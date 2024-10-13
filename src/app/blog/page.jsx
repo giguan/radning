@@ -37,7 +37,7 @@ export default async function BlogList() {
 
               {/* 블로그 글 정보 */}
               <div className="w-full md:w-3/4 md:pl-6">
-                <Link href={`/blog/${post.id}`}>
+                <Link href={`/blog/${post.title}`}>
                   <h2 className="text-2xl font-semibold cursor-pointer hover:text-blue-500">
                     {post.title}
                   </h2>

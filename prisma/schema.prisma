@@ -8,10 +8,11 @@ generator client {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
+  title     String   @unique  // title을 고유 필드로 설정
   excerpt   String
   content   String
-  image     String?  // 이미지 경로, 선택 사항
+  image     String?
   createdAt DateTime @default(now())
 }
+
+// npx prisma migrate dev --name change_title_to_primary_key 마이그레이션 실행

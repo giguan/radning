@@ -1,0 +1,17 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")  // .env 파일의 DATABASE_URL 참조
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  excerpt   String
+  content   String
+  image     String?  // 이미지 경로, 선택 사항
+  createdAt DateTime @default(now())
+}

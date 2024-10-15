@@ -1,0 +1,8 @@
+/* 퀼의 헤더 드롭다운의 너비를 자동으로 확장 */
+.ql-toolbar .ql-picker.ql-header .ql-picker-label {
+    width: 100px; /* 헤더 선택 드롭다운 너비 자동 조정 */
+  }
+  
+  .ql-toolbar .ql-picker.ql-header .ql-picker-options {
+    width: auto; /* 헤더 드롭다운 옵션 너비 자동 조정 */
+  }

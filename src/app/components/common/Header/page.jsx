@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { FaTelegramPlane } from "react-icons/fa";
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { FaTelegramPlane } from "react-icons/fa";
 
 export default function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -11,14 +13,16 @@ export default function Header() {
     <>
       <header className="text-white p-4 flex justify-between items-center border-b-2">
         <div className="text-lg font-bold">
-            <h1>
-                <Image
-                    src="/images/토토의집.png"
-                    alt="토토의집 메인 로고"
-                    width={70}
-                    height={30}
-                />
-            </h1>
+            <Link href="/">
+              <h1>
+                  <Image
+                      src="/images/토토의집.png"
+                      alt="토토의집 메인 로고"
+                      width={70}
+                      height={30}
+                  />
+              </h1>
+            </Link>
         </div>
         
         <div className='flex justify-center space-x-2'>
@@ -51,17 +55,38 @@ export default function Header() {
           onClick={(e) => e.stopPropagation()}
         >
           <ul className="space-y-4">
-            <li>
-              <a href="/" className="text-gray-800">Home</a>
+            <li className="rounded-lg p-2 hover:bg-[#35C5F0] hover:bg-opacity-40 transition-all duration-300 ease-in-out">
+              <Link 
+                href="/" 
+                onClick={() => setIsSidebarOpen(false)}
+                className="text-gray-800 hover:text-lg hover:scale-105 transform transition-all duration-300 ease-in-out"
+              >
+                Home
+              </Link>
             </li>
-            <li>
-              <a href="/about" className="text-gray-800">About</a>
+            <li className="rounded-lg p-2 hover:bg-[#35C5F0] hover:bg-opacity-40 transition-all duration-300 ease-in-out">
+              <Link 
+                href="/" 
+                onClick={() => setIsSidebarOpen(false)}
+                className="text-gray-800 hover:text-lg hover:scale-105 transform transition-all duration-300 ease-in-out">
+                About
+              </Link>
             </li>
-            <li>
-              <a href="/contact" className="text-gray-800">Contact</a>
+            <li className="rounded-lg p-2 hover:bg-[#35C5F0] hover:bg-opacity-40 transition-all duration-300 ease-in-out">
+              <Link 
+                href="/faq" 
+                onClick={() => setIsSidebarOpen(false)}
+                className="text-gray-800 hover:text-lg hover:scale-105 transform transition-all duration-300 ease-in-out">
+                FAQ
+              </Link>
             </li>
-            <li>
-              <a href="/blog" className="text-gray-800">Blog</a>
+            <li className="rounded-lg p-2 hover:bg-[#35C5F0] hover:bg-opacity-40 transition-all duration-300 ease-in-out">
+              <Link 
+                href="/blog" 
+                onClick={() => setIsSidebarOpen(false)}
+                className="text-gray-800 hover:text-lg hover:scale-105 transform transition-all duration-300 ease-in-out">
+                Blog
+              </Link>
             </li>
           </ul>
         </nav>

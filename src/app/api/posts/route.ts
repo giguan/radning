@@ -17,12 +17,13 @@ export async function GET() {
   }
 
 export async function POST(req: Request) {
-  const { title, excerpt, content, image } = await req.json();
+  const { title, slug, excerpt, content, image } = await req.json();
 
   try {
     const post = await prisma.post.create({
       data: {
         title,
+        slug,
         excerpt,
         content,
         image,
@@ -34,3 +35,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: '게시글 등록 중 오류가 발생했습니다.' }, { status: 500 });
   }
 }
+

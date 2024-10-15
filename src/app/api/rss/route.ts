@@ -15,7 +15,7 @@ export async function GET() {
     .map(post => `
       <item>
         <title>${post.title}</title>
-        <link>https://your-domain.com/blog/${post.id}</link>
+        <link>https://your-domain.com/blog/${post.title}</link>
         <pubDate>${format(new Date(post.createdAt), 'EEE, dd MMM yyyy HH:mm:ss O')}</pubDate>
         <description>${post.excerpt}</description>
       </item>

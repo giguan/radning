@@ -3,6 +3,7 @@ import "./globals.css";
 
 import Header from "./components/common/Header/page";
 import Footer from "./components/common/Footer/page";
+import Banner from "./components/common/Banner/page";
 import Head from "next/head";
 
 const NotoSansKR = localFont({
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow p-4">
+            <Banner />
             {children}
           </main>
           <Footer />

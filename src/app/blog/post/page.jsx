@@ -3,21 +3,25 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import "./styles.css";
+import { useRouter } from 'next/navigation';
 
 // Quill은 서버 사이드 렌더링과 호환되지 않으므로 dynamic import를 사용합니다.
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-// 기본 툴바 설정
-const modules = {
-  toolbar: [
-    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    ['bold', 'italic', 'underline'],
-    ['link', 'image'],
-  ],
-};
+// 한글을 포함한 슬러그 변환 함수
+function convertToSlug(text) {
+  return text
+    .replace(/[^a-zA-Z0-9가-힣\s-]/g, '') // 한글, 영문, 숫자, 공백만 허용
+    .replace(/\s+/g, '-') // 공백을 대시로 변환
+    .replace(/--+/g, '-') // 여러 개의 대시를 하나로 줄임
+    .replace(/^-+|-+$/g, '') // 앞뒤의 대시 제거
+    .trim();
+}
 
 export default function PostForm() {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
@@ -25,22 +29,17 @@ export default function PostForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // 전송할 데이터를 출력하여 확인
-    console.log({
+
+    const slug = convertToSlug(title); // 한글 슬러그 생성
+
+    const formData = {
       title,
+      slug, // 슬러그 저장
       excerpt,
       content,
       image: image ? image.name : null,
-    });
-  
-    const formData = {
-      title,
-      excerpt,
-      content,
-      image: image ? image.name : null,  // 이미지가 선택되지 않았을 때는 null
     };
-  
+
     const response = await fetch("/api/posts", {
       method: "POST",
       headers: {
@@ -48,9 +47,14 @@ export default function PostForm() {
       },
       body: JSON.stringify(formData),
     });
-  
+
     if (response.ok) {
-      alert("게시글이 성공적으로 등록되었습니다.");
+      const post = await response.json(); // 등록된 게시글의 ID와 슬러그를 반환받음
+
+      // 게시글의 ID와 슬러그를 사용해 SEO 친화적인 URL로 리다이렉션
+      router.push(`/blog/${post.id}/${slug}`);
+
+      // 폼 초기화
       setTitle("");
       setExcerpt("");
       setContent("");
@@ -93,7 +97,6 @@ export default function PostForm() {
           className="mt-1 h-60 h-auto"
           theme="snow"
           placeholder="내용을 입력하세요"
-          modules={modules} // 툴바 설정 적용
         />
       </div>
 

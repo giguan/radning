@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="p-4">
       {/* 배너 컴포넌트 */}
-      <BannerGrid />
+      {/* <BannerGrid /> */}
 
       {/* 컨텐츠 컴포넌트 */}
       <ContentSection />

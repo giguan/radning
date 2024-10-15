@@ -1,11 +1,10 @@
-
 import Link from 'next/link';
 import { FaTelegramPlane } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <footer className="hidden sm:block bg-gray-100 text-gray-800 py-8">
-      <div className="container mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4"> {/* 여기에 max-w-6xl과 mx-auto로 고정 너비와 가운데 정렬 */}
         <div className="flex flex-col lg:flex-row justify-between">
           {/* Left Section */}
           <div className="mb-6 lg:mb-0">
@@ -16,7 +15,6 @@ export default function Footer() {
                   <span>고객센터</span>
                 </h2>
               </Link>
-
             </div>
             <p className="mt-2 text-lg font-bold">1600-1234 <span className="text-sm">09:00-18:00</span></p>
             <ul className="mt-2 text-sm">

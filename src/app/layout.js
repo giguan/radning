@@ -19,6 +19,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="ko">
       <Head>
@@ -28,8 +29,8 @@ export default function RootLayout({ children }) {
         className={`${NotoSansKR.variable} antialiased`}
       >
         <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow p-4">
+          <Header/>
+          <main className="flex-grow mx-auto p-4 max-w-6xl">
             <Banner />
             {children}
           </main>

@@ -1,4 +1,5 @@
-import Image from "next/image";
+import Script from "next/script";
+import Component1 from '@/app/components/home/Component1/page';
 
 export const metadata = {
   title: "토토의집 - 토지노 DB 및 정보를 제공하는 커뮤니티",
@@ -6,35 +7,41 @@ export const metadata = {
 };
 
 export default function Home() {
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "headline": metadata.title,
+    "description": metadata.description,
+    "url": "https://example.com",  // 실제 사이트 URL로 변경 필요
+    "publisher": {
+      "@type": "Organization",
+      "name": "토토의집",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://example.com/logo.png" // 로고 이미지 URL로 변경 필요
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://example.com"
+    }
+  };
+
   return (
     <div className="p-4">
-      {/* 배너 컴포넌트 */}
-      {/* <BannerGrid /> */}
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      {/* 카테고리 슬라이더 */}
+      <Component1 />
+      
+      <div className="m-4"></div>
 
       {/* 컨텐츠 컴포넌트 */}
       <ContentSection />
-    </div>
-  );
-}
-
-
-function BannerGrid() {
-  return (
-    <div className="mb-8">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-1">
-        {Array.from({ length: 16 }).map((_, index) => (
-          <div key={index} className="bg-gray-100 rounded-lg overflow-hidden shadow-md">
-            <Image
-              src={`/images/배너모집.png`}
-              alt={`배너 ${index + 1}`}
-              width={300}
-              height={100}
-              layout="responsive"
-              objectFit="cover"
-            />
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

@@ -30,7 +30,7 @@ services:
     env_file:
       - .env.production
     depends_on:
-      db:
+      db: # depends_on에 db로 하니까 next_app이 실행하면서 prisma 에러가 반복 됨 service_healthy를 통해 MySQL 서버가 완전히 준비된 후에만 실행하게 함
         condition: service_healthy
     networks:
       - app-network
